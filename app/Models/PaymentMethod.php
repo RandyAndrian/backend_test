@@ -11,11 +11,13 @@ class PaymentMethod extends Model
 
     protected $primaryKey = 'id';
 
+    protected $fillable = ['name', 'is_active'];
+
     protected $table = 'payment_methods';
 
-    public function getModelName(): string
+    public function order()
     {
-        return 'PaymentMethod';
+        return $this->belongsTo(Order::class, 'payment_method_id', 'id');
     }
 
 }

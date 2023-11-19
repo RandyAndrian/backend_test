@@ -15,9 +15,12 @@ return new class extends Migration
     {
         Schema::create('customer_addresses', function (Blueprint $table) {
             $table->id();
-            $table->integer('customer_id');
+            $table->unsignedBigInteger('customer_id');
             $table->string('address');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('customer_id')->references('id')->on('customers');
         });
     }
 

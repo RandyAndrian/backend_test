@@ -20,12 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/order', [OrderController::class, 'store']);
+Route::get('/order/{id}', [OrderController::class, 'show']);
 
-Route::apiResource('/customers', CustomerController::class);
-Route::apiResource('/customer_addresses', CustomerAddressController::class);
-Route::apiResource('/products', ProductController::class);
-Route::apiResource('/payments', PaymentMethodController::class);
-Route::apiResource('/orders', OrderController::class);
+

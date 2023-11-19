@@ -9,24 +9,47 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'payment_id', 'customer_address_id'];
+    protected $fillable = ['product_id', 'payment_method_id','customer_address_id'];
 
     protected $primaryKey = 'id';
 
     protected $table = 'orders';
 
-    public function product()
+    public function products()
     {
-        return $this->hasMany('App\Model\Product', 'id', 'product_id');
+        return $this->hasMany(Product::class);
     }
 
-    public function payment()
+    public function getProductData()
     {
-        return $this->hasMany('App\Model\Payment', 'id', 'payment_id');
+        $productData = [];
+
+        foreach ($this->products as $product) {
+            $productData[] = [
+                'name' => $product->name,
+                'price' => $product->price,
+            ];
+        }
+
+        return $productData;
     }
 
-    public function customerAddress()
+    public function payment_methods()
     {
-        return $this->hasMany('App\Model\CustomerAddress', 'id', 'customer_address_id');
+        return $this->hasMany(PaymentMethod::class);
+    }
+
+    public function getPaymentMethodData()
+    {
+        $paymentMethodData = [];
+
+        foreach ($this->payment_methods as $payment) {
+            $paymentMethodData[] = [
+                'name' => $payment->name,
+                'is_active' => $payment->is_active,
+            ];
+        }
+
+        return $paymentMethodData;
     }
 }

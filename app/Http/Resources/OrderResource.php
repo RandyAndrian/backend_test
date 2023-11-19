@@ -18,17 +18,15 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        $product = Product::where('id', $this->product_id)->first();
-        $payment = PaymentMethod::where('id', $this->payment_id)->first();
         $customer_address = CustomerAddress::where('id', $this->customer_address_id)->first();
-        $customer = Customer::where('id', $customer_address->customer_id)->first();
+        $customer_name = Customer::where('id', $customer_address->customer_id)->first();
 
         return [
             'id' => $this->id,
-            'customer' => $customer->name ?? null,
-            'product' => $product->name ?? null,
-            'payment' => $payment->name ?? null,
-            'customer_address' => $customer_address->address ?? null,
+            'customer_name' => $customer_name->customer_name,
+            'customer_address' => $customer_address->address,
+            'product' => $this->getProductData(),
+            'payment_method' => $this->getPaymentMethodData(),
         ];
     }
 }

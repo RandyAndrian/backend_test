@@ -4,18 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = ['name', 'price'];
 
     protected $primaryKey = 'id';
 
     protected $table = 'products';
 
-    public function getModelName(): string
+    public function order()
     {
-        return 'Product';
+        return $this->belongsTo(Order::class, 'product_id', 'id');
     }
 
 }
